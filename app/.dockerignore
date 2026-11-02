@@ -1,0 +1,15 @@
+node_modules
+dist
+data
+.git
+test-results
+playwright-report
+*.log
+.local
+.env
+backend/target
+test-results-spring
+test-results-worker
+.wrangler
+.sites-runtime
+sites-deployment.tar.gz

@@ -1,0 +1,15 @@
+node_modules/
+dist/
+data/
+test-results/
+playwright-report/
+test-results-worker/
+.env
+*.log
+.wrangler/
+.sites-runtime/
+sites-deployment.tar.gz
+backend/target/
+backend/src/main/resources/sheet-engine.js
+.local/
+test-results-spring/

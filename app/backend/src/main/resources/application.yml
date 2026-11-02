@@ -1,0 +1,17 @@
+server:
+  address: ${BIND_ADDRESS:127.0.0.1}
+  port: ${PORT:8081}
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://127.0.0.1:54330/sheets}
+    username: ${DB_USER:journals}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 8
+  flyway:
+    table: sheets_schema_history
+    baseline-on-migrate: true
+    baseline-version: 0
+    clean-disabled: true
+app:
+  cookie-secure: ${COOKIE_SECURE:false}

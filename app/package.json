@@ -1,0 +1,57 @@
+{
+  "name": "open-sheets",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build && node scripts/build-engine.mjs",
+    "build:client": "vite build",
+    "worker:dev": "wrangler dev --config wrangler.json --port 3102 --persist-to .wrangler/state",
+    "worker:migrate": "wrangler d1 migrations apply DB --local --config wrangler.json --persist-to .wrangler/state",
+    "db:generate": "drizzle-kit generate",
+    "start": "java -jar backend/target/sheets-1.0.0.jar",
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "playwright test",
+    "test:e2e:worker": "playwright test --config playwright.worker.config.js",
+    "build:engine": "node scripts/build-engine.mjs",
+    "test:e2e:spring": "playwright test --config playwright.spring.config.js",
+    "start:legacy": "node server/index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "better-sqlite3": "^12.4.1",
+    "cookie-parser": "^1.4.7",
+    "core-js": "3.41.0",
+    "drizzle-orm": "^0.45.4",
+    "exceljs": "^4.4.0",
+    "express": "^5.1.0",
+    "hono": "^4.13.13",
+    "hyperformula": "^3.1.0",
+    "jszip": "^3.10.2",
+    "lucide-react": "^0.468.0",
+    "numfmt": "4.0.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "concurrently": "^9.2.1",
+    "drizzle-kit": "^0.31.11",
+    "esbuild": "^0.28.2",
+    "vite": "^7.1.9",
+    "wrangler": "^4.151.1"
+  },
+  "overrides": {
+    "@esbuild-kit/core-utils": {
+      "esbuild": "$esbuild"
+    },
+    "exceljs": {
+      "uuid": "^11.1.1"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "cssSource": "https://fonts.googleapis.com/css2?family=Google+Sans:opsz,wght@18,400..700&display=swap",
+  "licenseSource": "https://raw.githubusercontent.com/googlefonts/googlesans/10c1a0fd02fa1f6d0479480668546e81ab84b3b3/OFL.txt",
+  "files": [
+    {
+      "subset": "cyrillic-ext",
+      "source": "https://fonts.gstatic.com/s/googlesans/v71/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj8UvaYr.woff2",
+      "file": "google-sans-cyrillic-ext.woff2",
+      "sha256": "a09898ad621267e54df59369a94ac9cbae555e13d4a4904fbfe7dd837ba60e6a"
+    },
+    {
+      "subset": "cyrillic",
+      "source": "https://fonts.gstatic.com/s/googlesans/v29/4UaGrENHsxJlGDuGo1OIlL3Kwp5MKg.woff2",
+      "file": "google-sans-cyrillic.woff2",
+      "sha256": "85559493343d1ca041f0854266aa19dc333f05712170b64ca3ecee616d3894c6"
+    },
+    {
+      "subset": "greek-ext",
+      "source": "https://fonts.gstatic.com/s/googlesans/v71/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj4UvaYr.woff2",
+      "file": "google-sans-greek-ext.woff2",
+      "sha256": "12ba4d2cb296ca482edf16963d28b39a18da3be25a253239532ce4f011bad345"
+    },
+    {
+      "subset": "greek",
+      "source": "https://fonts.gstatic.com/s/googlesans/v71/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjEUvaYr.woff2",
+      "file": "google-sans-greek.woff2",
+      "sha256": "807cfe0da0551aa9b6e66dfbf6a7d2f4608f290e504be3a0d1c767728907e26d"
+    },
+    {
+      "subset": "vietnamese",
+      "source": "https://fonts.gstatic.com/s/googlesans/v71/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj0UvaYr.woff2",
+      "file": "google-sans-vietnamese.woff2",
+      "sha256": "be35f711674d32eca0ca28e415d25d05c6ac19a1e95f942c53758e35c2465951"
+    },
+    {
+      "subset": "latin-ext",
+      "source": "https://fonts.gstatic.com/s/googlesans/v71/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjwUvaYr.woff2",
+      "file": "google-sans-latin-ext.woff2",
+      "sha256": "2507802626a6cb16e4a7410bbb809380b957333582156a3907431b4fe57afab4"
+    },
+    {
+      "subset": "latin",
+      "source": "https://fonts.gstatic.com/s/googlesans/v29/4UaGrENHsxJlGDuGo1OIlL3Owp4.woff2",
+      "file": "google-sans-latin.woff2",
+      "sha256": "7165713d3e1a610399471a5e93d5677508f62ef072c1151e72273bf4bd54f916"
+    }
+  ]
+}

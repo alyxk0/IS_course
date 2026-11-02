@@ -1,0 +1,44 @@
+import { test, expect } from "@playwright/test";
+test("View flyouts control personal formula display, shared gridlines, both frozen axes and fullscreen",async({page,browser})=>{
+  const errors=[];page.on("pageerror",e=>errors.push(e.message));
+  const context=await browser.newContext(),peer=await context.newPage(),stamp=Date.now();
+  try{
+    for(const [client,name]of[[page.request,"owner"],[context.request,"viewer"]])expect((await client.post("/api/auth/register",{data:{name,email:`view-${name}-${stamp}@example.com`,password:"ViewPassword123"}})).ok()).toBeTruthy();
+    const doc=await(await page.request.post("/api/documents",{data:{}})).json();
+    await page.request.put(`/api/documents/${doc.id}/members`,{data:{email:`view-viewer-${stamp}@example.com`,role:"viewer"}});
+    await page.goto(`/?doc=${doc.id}`);await peer.goto(`/?doc=${doc.id}`);
+    const formula=page.getByLabel("Строка формул",{exact:true});await formula.fill("=1+2");await formula.press("Enter");
+    await page.getByRole("button",{name:"Данные",exact:true}).click();await page.getByRole("menuitem",{name:"Защитить листы и диапазоны",exact:true}).click();
+    const panel=page.getByRole("complementary",{name:"Защищенные листы и диапазоны",exact:true});await panel.getByLabel("Выберите диапазон",{exact:true}).fill("Лист1!B2");
+    await panel.getByRole("button",{name:"Задать разрешения",exact:true}).click();await page.getByRole("dialog",{name:"Доступ к редактированию диапазонов",exact:true}).getByRole("button",{name:"Готово",exact:true}).click();
+    await panel.getByRole("button",{name:"Закрыть боковую панель",exact:true}).click();
+    await expect(page.locator('[data-cell="0,0"] .cell-text')).toHaveText("3");
+    const open=async(label)=>{await page.getByRole("button",{name:"Вид",exact:true}).click();await page.getByRole("menuitem",{name:label,exact:true}).hover();await expect(page.getByRole("menu",{name:label,exact:true})).toBeVisible();};
+    await open("Показать");expect(await page.getByRole("menu",{name:"Вид",exact:true}).boundingBox()).toMatchObject({width:322,height:272});
+    expect(await page.getByRole("menu",{name:"Показать",exact:true}).boundingBox()).toMatchObject({width:262,height:142});
+    await page.screenshot({path:"artifacts/view-show-app.png"});
+    await page.getByRole("menuitemcheckbox",{name:"Формулы",exact:true}).click();await expect(page.locator('[data-cell="0,0"] .cell-text')).toHaveText("=1+2");
+    await expect(peer.locator('[data-cell="0,0"] .cell-text')).toHaveText("3");
+    await page.reload();await expect(page.locator('[data-cell="0,0"] .cell-text')).toHaveText("=1+2");
+    await page.locator(".grid-container").focus();await page.keyboard.press("Control+Backquote");await expect(page.locator('[data-cell="0,0"] .cell-text')).toHaveText("3");
+    await open("Показать");await page.getByRole("menuitemcheckbox",{name:"Панель формул",exact:true}).click();await expect(formula).not.toBeVisible();
+    await open("Показать");await page.getByRole("menuitemcheckbox",{name:"Панель формул",exact:true}).click();await expect(formula).toBeVisible();
+    await open("Показать");await page.getByRole("menuitemcheckbox",{name:"Сетка",exact:true}).click();await expect(peer.locator(".sheet-grid")).toHaveAttribute("data-hide-gridlines","true");
+    await open("Показать");await page.getByRole("menuitemcheckbox",{name:"Защищенные диапазоны",exact:true}).click();
+    await expect(page.locator('[data-cell="1,1"]')).toHaveAttribute("data-protected-view","true");await expect(page.locator('[data-cell="0,0"]')).not.toHaveAttribute("data-protected-view");await expect(peer.locator('[data-cell="1,1"]')).not.toHaveAttribute("data-protected-view");
+    await page.getByLabel("Диапазон",{exact:true}).fill("G10:H11");await page.getByLabel("Диапазон",{exact:true}).press("Enter");
+    await open("Закрепить");expect(await page.getByRole("menu",{name:"Закрепить",exact:true}).boundingBox()).toMatchObject({width:262,height:287});
+    await expect(page.getByRole("menuitem",{name:"До строки 11",exact:true})).toBeVisible();await expect(page.getByRole("menuitem",{name:"До столбца H",exact:true})).toBeVisible();await page.screenshot({path:"artifacts/view-freeze-app.png"});
+    await page.getByRole("menuitem",{name:"Несколько строк (2)",exact:true}).click();
+    await open("Закрепить");await page.getByRole("menuitem",{name:"Несколько столбцов (2)",exact:true}).click();
+    const cell=page.locator('[data-cell="0,0"]');await expect(cell).toHaveCSS("position","sticky");const before=await cell.boundingBox();
+    await page.locator(".grid-container").evaluate(el=>{el.scrollLeft=500;el.scrollTop=500;});await page.waitForTimeout(150);
+    const after=await cell.boundingBox();expect(after.x).toBeCloseTo(before.x,0);expect(after.y).toBeCloseTo(before.y,0);
+    await open("Масштаб");await page.getByRole("menuitemcheckbox",{name:"125%",exact:true}).click();await expect(page.locator(".sheet-grid")).toHaveCSS("zoom","1.25");
+    await page.getByRole("button",{name:"Вид",exact:true}).click();await page.getByRole("menuitem",{name:"Полный экран",exact:true}).click();await expect(page.locator(".editor-header")).not.toBeVisible();
+    await page.keyboard.press("Escape");await expect(page.locator(".editor-header")).toBeVisible();
+    await peer.getByRole("button",{name:"Вид",exact:true}).click();await expect(peer.getByRole("menuitem",{name:"Закрепить",exact:true})).toBeDisabled();
+    const saved=await(await page.request.get(`/api/documents/${doc.id}`)).json();expect(saved.state.sheets[0]).toMatchObject({frozen:2,frozenCols:2,hideGridlines:true});
+    expect(errors).toEqual([]);await page.screenshot({path:"artifacts/view-menu-app.png"});
+  }finally{await context.close();}
+});

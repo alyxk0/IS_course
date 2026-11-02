@@ -1,0 +1,216 @@
+{
+  "defaults": [
+    "Amatic SC",
+    "Arial",
+    "Caveat",
+    "Comfortaa",
+    "Comic Sans MS",
+    "Courier New",
+    "EB Garamond",
+    "Georgia",
+    "Impact",
+    "Lexend",
+    "Lobster",
+    "Lora",
+    "Merriweather",
+    "Montserrat",
+    "Nunito",
+    "Oswald",
+    "Pacifico",
+    "Playfair Display",
+    "Roboto",
+    "Roboto Mono",
+    "Roboto Serif",
+    "Spectral",
+    "Times New Roman",
+    "Trebuchet MS",
+    "Verdana"
+  ],
+  "extra": [
+    "Google Sans",
+    "Open Sans",
+    "Lato",
+    "PT Sans",
+    "PT Serif",
+    "Source Sans 3",
+    "Noto Sans",
+    "Raleway",
+    "Inconsolata",
+    "Inter",
+    "Poppins"
+  ],
+  "system": [
+    "Arial",
+    "Comic Sans MS",
+    "Courier New",
+    "Georgia",
+    "Impact",
+    "Times New Roman",
+    "Trebuchet MS",
+    "Verdana"
+  ],
+  "families": [
+    {
+      "name": "Amatic SC",
+      "category": "HANDWRITING",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Caveat",
+      "category": "HANDWRITING",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Comfortaa",
+      "category": "DISPLAY",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "EB Garamond",
+      "category": "SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Inconsolata",
+      "category": "SANS_SERIF",
+      "cyrillic": false,
+      "latin": true
+    },
+    {
+      "name": "Inter",
+      "category": "SANS_SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Lato",
+      "category": "SANS_SERIF",
+      "cyrillic": false,
+      "latin": true
+    },
+    {
+      "name": "Lexend",
+      "category": "SANS_SERIF",
+      "cyrillic": false,
+      "latin": true
+    },
+    {
+      "name": "Lobster",
+      "category": "DISPLAY",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Lora",
+      "category": "SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Merriweather",
+      "category": "SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Montserrat",
+      "category": "SANS_SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Noto Sans",
+      "category": "SANS_SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Nunito",
+      "category": "SANS_SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Open Sans",
+      "category": "SANS_SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Oswald",
+      "category": "SANS_SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Pacifico",
+      "category": "HANDWRITING",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Playfair Display",
+      "category": "SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Poppins",
+      "category": "SANS_SERIF",
+      "cyrillic": false,
+      "latin": true
+    },
+    {
+      "name": "PT Sans",
+      "category": "SANS_SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "PT Serif",
+      "category": "SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Raleway",
+      "category": "SANS_SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Roboto",
+      "category": "SANS_SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Roboto Mono",
+      "category": "MONOSPACE",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Roboto Serif",
+      "category": "SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Source Sans 3",
+      "category": "SANS_SERIF",
+      "cyrillic": true,
+      "latin": true
+    },
+    {
+      "name": "Spectral",
+      "category": "SERIF",
+      "cyrillic": true,
+      "latin": true
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "header": "#bdbdbd",
+    "first": "#ffffff",
+    "second": "#f3f3f3",
+    "footer": "#bdbdbd"
+  },
+  {
+    "header": "#4dd0e1",
+    "first": "#ffffff",
+    "second": "#e0f7fa",
+    "footer": "#4dd0e1"
+  },
+  {
+    "header": "#63d297",
+    "first": "#ffffff",
+    "second": "#e7f9ef",
+    "footer": "#63d297"
+  },
+  {
+    "header": "#f7cb4d",
+    "first": "#ffffff",
+    "second": "#fef8e3",
+    "footer": "#f7cb4d"
+  },
+  {
+    "header": "#f46524",
+    "first": "#ffffff",
+    "second": "#ffe6dd",
+    "footer": "#f46524"
+  },
+  {
+    "header": "#5b95f9",
+    "first": "#ffffff",
+    "second": "#e8f0fe",
+    "footer": "#5b95f9"
+  },
+  {
+    "header": "#26a69a",
+    "first": "#ffffff",
+    "second": "#ddf2f0",
+    "footer": "#26a69a"
+  },
+  {
+    "header": "#78909c",
+    "first": "#ffffff",
+    "second": "#ebeff1",
+    "footer": "#78909c"
+  },
+  {
+    "header": "#cca677",
+    "first": "#ffffff",
+    "second": "#f8f2eb",
+    "footer": "#cca677"
+  },
+  {
+    "header": "#8bc34a",
+    "first": "#ffffff",
+    "second": "#eef7e3",
+    "footer": "#8bc34a"
+  },
+  {
+    "header": "#8989eb",
+    "first": "#ffffff",
+    "second": "#e8e7fc",
+    "footer": "#8989eb"
+  },
+  {
+    "header": "#bdbdbd",
+    "first": "#ffffff",
+    "second": "#f3f3f3",
+    "footer": "#bdbdbd"
+  }
+]

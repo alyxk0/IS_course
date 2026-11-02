@@ -1,0 +1,52 @@
+import { test, expect } from "@playwright/test";
+test("Format menu matches reference, nested actions synchronize and underline survives undo, links and reload", async ({ page, browser }) => {
+  const context = await browser.newContext(), peer = await context.newPage(), stamp = Date.now(), errors = [];
+  for (const p of [page, peer]) p.on("pageerror", (error) => errors.push(error.message));
+  try {
+    for (const [client, name] of [[page.request, "owner"], [context.request, "viewer"]])
+      expect((await client.post("/api/auth/register", { data: { name, email: `format-${name}-${stamp}@example.com`, password: "FormatMenuPass123" } })).ok()).toBeTruthy();
+    const doc = await (await page.request.post("/api/documents", { data: {} })).json();
+    await page.request.put(`/api/documents/${doc.id}/members`, { data: { email: `format-viewer-${stamp}@example.com`, role: "viewer" } });
+    await page.goto(`/?doc=${doc.id}`); await peer.goto(`/?doc=${doc.id}`);
+    const select = async (range) => { await page.getByLabel("Диапазон", { exact: true }).fill(range); await page.getByLabel("Диапазон", { exact: true }).press("Enter"); };
+    const open = () => page.getByRole("button", { name: "Формат", exact: true }).click();
+    const main = page.getByRole("menu", { name: "Формат", exact: true }), text = page.getByRole("menu", { name: "Текст", exact: true });
+    const ink = peer.locator('[data-cell="1,1"] .cell-text');
+    await select("B2"); await page.getByLabel("Строка формул", { exact: true }).fill("=1+2"); await page.getByLabel("Строка формул", { exact: true }).press("Enter");
+    await select("B2:C3"); await open();
+    expect(await main.boundingBox()).toMatchObject({ x: 281.28125, y: 58, width: 322, height: 498 });
+    await page.screenshot({ path: "artifacts/format-menu-app.png" });
+    await main.getByRole("menuitem", { name: "Текст", exact: true }).hover(); await expect(text).toBeVisible();
+    expect(await text.boundingBox()).toMatchObject({ x: 602.28125, y: 146, width: 262, height: 142 });
+    await page.screenshot({ path: "artifacts/format-text-app.png" });
+    await text.getByRole("menuitemcheckbox", { name: "Подчеркнутый", exact: true }).click();
+    await expect(ink).toHaveCSS("text-decoration-line", "underline"); await expect(ink).toHaveText("3");
+    await page.getByRole("grid").press("Control+z"); await expect(ink).toHaveCSS("text-decoration-line", "none");
+    await page.getByRole("grid").press("Control+y"); await expect(ink).toHaveCSS("text-decoration-line", "underline");
+    await page.getByRole("grid").press("Alt+Shift+Digit5"); await expect(ink).toHaveCSS("text-decoration-line", "underline line-through");
+    await page.getByRole("grid").press("Control+u"); await expect(ink).toHaveCSS("text-decoration-line", "line-through");
+    const choose = async (parent, label) => { await open(); await main.getByRole("menuitem", { name: parent, exact: true }).hover(); await page.getByRole("menu", { name: parent, exact: true }).getByRole("menuitemcheckbox", { name: label, exact: true }).click(); };
+    await choose("Выравнивание", "По центру по горизонтали"); await expect(peer.locator('[data-cell="1,1"]')).toHaveCSS("text-align", "center");
+    await choose("Перенос", "Переносить по словам"); await expect(peer.locator('[data-cell="1,1"] .cell-value')).toHaveClass(/wrap/);
+    await choose("Размер шрифта", "18"); await expect(peer.locator('[data-cell="1,1"]')).toHaveCSS("font-size", "24px");
+    await open(); await main.getByRole("menuitem", { name: "Вращение", exact: true }).hover();
+    await page.getByRole("menu", { name: "Вращение", exact: true }).getByRole("menuitem", { name: "Другой угол", exact: true }).hover();
+    await page.getByRole("menu", { name: "Другой угол", exact: true }).getByRole("menuitemcheckbox", { name: "30°", exact: true }).click();
+    await expect(peer.locator('[data-cell="1,1"] .angled-text')).toBeVisible();
+    await open(); await main.getByRole("menuitem", { name: "Числа", exact: true }).focus(); await page.keyboard.press("ArrowRight");
+    const numbers = page.getByRole("menu", { name: "Числовые форматы", exact: true }); await expect(numbers.getByRole("menuitemcheckbox", { name: "Автоматический формат", exact: true })).toBeFocused();
+    await numbers.getByRole("menuitemcheckbox", { name: "Число", exact: true }).click(); await expect(peer.locator('[data-cell="1,1"] .angled-text')).toHaveText("3,00");
+    await open(); await main.getByRole("menuitem", { name: "Текст", exact: true }).focus(); await page.keyboard.press("ArrowRight"); await expect(text.getByRole("menuitemcheckbox").first()).toBeFocused();
+    await page.keyboard.press("Escape"); await expect(text).toHaveCount(0); await expect(main).toBeVisible(); await page.keyboard.press("Escape"); await expect(main).toHaveCount(0);
+    await page.getByRole("grid").press("Control+Backslash"); await expect(peer.locator('[data-cell="1,1"] .angled-text')).toHaveCount(0); await expect(ink).toHaveCSS("text-decoration-line", "none");
+    await select("B2"); await page.getByRole("grid").press("Control+k"); await page.getByLabel("Адрес ссылки", { exact: true }).fill("https://example.com/formula"); await page.getByRole("button", { name: "Применить", exact: true }).click();
+    await expect(ink).toHaveCSS("text-decoration-line", "underline"); await page.getByRole("grid").press("Control+u"); await expect(ink).toHaveCSS("text-decoration-line", "none");
+    await select("E5:F6"); await open(); await main.getByRole("menuitem", { name: "Объединить ячейки", exact: true }).hover();
+    await page.getByRole("menu", { name: "Объединить ячейки", exact: true }).getByRole("menuitem", { name: "Объединить все", exact: true }).click();
+    await expect(peer.locator('[data-cell="4,4"]')).toHaveAttribute("colspan", "2");
+    await page.reload(); await expect(page.locator('[data-cell="4,4"]')).toHaveAttribute("colspan", "2");
+    await expect(page.locator('[data-cell="1,1"] a')).toHaveCSS("text-decoration-line", "none");
+    await page.setViewportSize({ width: 900, height: 700 }); await open(); await main.getByRole("menuitem", { name: "Числа", exact: true }).hover(); await expect(numbers).toBeVisible();
+    const narrow = await numbers.boundingBox(); expect(narrow.x).toBeGreaterThanOrEqual(8); expect(narrow.x + narrow.width).toBeLessThanOrEqual(892); expect(narrow.y + narrow.height).toBeLessThanOrEqual(692); expect(errors).toEqual([]);
+  } finally { await context.close(); }
+});
